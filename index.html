@@ -1,0 +1,81 @@
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">  
+    <title>Random Quote Generator in JavaScript| CodingNepal</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>Quote of the Day</header>
+      <div class="content">
+        <div class="quote-area">
+          <i class="fas fa-quote-left"></i>
+          <p class="quote">Never give up because you never know if the next try is going to be the one that works.</p>
+          <i class="fas fa-quote-right"></i>
+        </div>
+        <div class="author">
+          <span>__</span>
+          <span class="name">Mary Kay Ash</span>
+        </div>
+      </div>
+      <div class="buttons">
+        <div class="features">
+          <ul>
+            
+            <li class="copy"><i class="fas fa-copy"></i></li>
+            <li class="twitter"><i class="fab fa-facebook"></i></li>
+          </ul>
+          <button>New Quote</button>
+        </div>
+      </div>
+    </div>
+    
+
+
+<script>
+
+let realData = "";
+const quoteText = document.querySelector(".quote");
+quoteBtn = document.querySelector("button");
+authorName = document.querySelector(".name");
+twitterBtn = document.querySelector(".twitter");
+copyBtn = document.querySelector(".copy");
+
+const getQuotes = async() => 
+{
+  const api = 'https://api.quotable.io/random';
+  try{
+      let data = await fetch(api);
+      let result = await data.json();
+      quoteText.innerText = result.content;
+        authorName.innerText = result.author;
+        quoteBtn.classList.remove("loading");
+        quoteBtn.innerText = "New Quote";
+        document.documentElement.style.setProperty('--main-bg-color', randomColor)
+      
+      
+      console.log(result.content);
+      console.log(result.author);
+
+  }catch(error){  }
+};
+twitterBtn.addEventListener("click", ()=>{
+    let tweetUrl = `https://twitter.com/intent/tweet?url=${quoteText.innerText}`;
+    window.open(tweetUrl, "_blank");
+});
+copyBtn.addEventListener("click", ()=>{
+    navigator.clipboard.writeText(quoteText.innerText);
+});
+quoteBtn.addEventListener("click", getQuotes);
+const randomColor = "#"+((1<<24)*Math.random()|0).toString(16); 
+
+
+getQuotes();
+
+
+
+</script>
+</body>
+</html>
